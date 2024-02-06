@@ -1,6 +1,7 @@
 defmodule Cacau.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do
@@ -8,6 +9,8 @@ defmodule Cacau.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+
+    has_many :organization_memberships, Cacau.Accounts.Membership
 
     timestamps()
   end
