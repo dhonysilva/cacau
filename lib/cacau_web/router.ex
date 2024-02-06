@@ -1,4 +1,5 @@
 defmodule CacauWeb.Router do
+  # alias CacauWeb.OrganizationController
   use CacauWeb, :router
 
   import CacauWeb.UserAuth
@@ -21,6 +22,8 @@ defmodule CacauWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    resources "/organizations", OrganizationController
   end
 
   # Other scopes may use custom stacks.
