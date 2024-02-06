@@ -15,17 +15,19 @@ defmodule CacauWeb.OrganizationController do
     render(conn, :new, changeset: changeset)
   end
 
-  # def create(conn, %{"category" => category_params}) do
-  #   case Catalog.create_category(category_params) do
-  #     {:ok, category} ->
-  #       conn
-  #       |> put_flash(:info, "Category created successfully.")
-  #       |> redirect(to: ~p"/categories/#{category}")
+  def create(conn, %{"organization" => organization_params}) do
+    user = conn.assigns[:current_user]
 
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       render(conn, :new, changeset: changeset)
-  #   end
-  # end
+    case Accounts.create_organization(user, organization_params) do
+      {:ok, %{organization: organization}} ->
+        conn
+        |> put_flash(:info, "Organization created successfully.")
+        |> redirect(to: ~p"/organizations/#{organization}")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, :new, changeset: changeset)
+    end
+  end
 
   def show(conn, %{"id" => id}) do
     organization =
@@ -35,32 +37,32 @@ defmodule CacauWeb.OrganizationController do
     render(conn, :show, organization: organization)
   end
 
-  # def edit(conn, %{"id" => id}) do
-  #   category = Catalog.get_category!(id)
-  #   changeset = Catalog.change_category(category)
-  #   render(conn, :edit, category: category, changeset: changeset)
-  # end
+  def edit(conn, %{"id" => id}) do
+    organization = Accounts.get_organization!(id)
+    changeset = Accounts.change_organization(organization)
+    render(conn, :edit, organization: organization, changeset: changeset)
+  end
 
-  # def update(conn, %{"id" => id, "category" => category_params}) do
-  #   category = Catalog.get_category!(id)
+  def update(conn, %{"id" => id, "organization" => organization_params}) do
+    organization = Accounts.get_organization!(id)
 
-  #   case Catalog.update_category(category, category_params) do
-  #     {:ok, category} ->
-  #       conn
-  #       |> put_flash(:info, "Category updated successfully.")
-  #       |> redirect(to: ~p"/categories/#{category}")
+    case Accounts.update_organization(organization, organization_params) do
+      {:ok, organization} ->
+        conn
+        |> put_flash(:info, "Organization updated successfully.")
+        |> redirect(to: ~p"/organizations/#{organization}")
 
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       render(conn, :edit, category: category, changeset: changeset)
-  #   end
-  # end
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, :edit, organization: organization, changeset: changeset)
+    end
+  end
 
-  # def delete(conn, %{"id" => id}) do
-  #   category = Catalog.get_category!(id)
-  #   {:ok, _category} = Catalog.delete_category(category)
+  def delete(conn, %{"id" => id}) do
+    organization = Accounts.get_organization!(id)
+    {:ok, _organization} = Accounts.delete_organization(organization)
 
-  #   conn
-  #   |> put_flash(:info, "Category deleted successfully.")
-  #   |> redirect(to: ~p"/categories")
-  # end
+    conn
+    |> put_flash(:info, "Organization deleted successfully.")
+    |> redirect(to: ~p"/organizations")
+  end
 end

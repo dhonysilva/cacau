@@ -6,6 +6,8 @@ defmodule Cacau.Accounts do
   import Ecto.Query, warn: false
   alias Cacau.Repo
 
+  alias Cacau.Accounts
+
   alias Cacau.Accounts.Organization
 
   @doc """
@@ -49,10 +51,20 @@ defmodule Cacau.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_organization(attrs \\ %{}) do
-    %Organization{}
-    |> Organization.changeset(attrs)
-    |> Repo.insert()
+
+  # def create_organization(attrs \\ %{}) do
+  #   %Organization{}
+  #   |> Organization.changeset(attrs)
+  #   |> Repo.insert()
+  # end
+
+  def create_organization(user, params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:organization, Organization.new(params))
+    |> Ecto.Multi.insert(:organization_membership, fn %{organization: organization} ->
+      Accounts.Membership.new(organization, user)
+    end)
+    |> Repo.transaction()
   end
 
   @doc """

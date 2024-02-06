@@ -16,6 +16,8 @@ defmodule Cacau.Accounts.Organization do
     timestamps()
   end
 
+  def new(params), do: changeset(%__MODULE__{}, params)
+
   @doc false
   def changeset(organization, attrs) do
     organization
