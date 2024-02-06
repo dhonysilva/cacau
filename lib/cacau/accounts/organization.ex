@@ -7,6 +7,11 @@ defmodule Cacau.Accounts.Organization do
   schema "organizations" do
     field :name, :string
 
+    many_to_many :members, Cacau.Accounts.User, join_through: Cacau.Accounts.Membership
+    has_many :memberships, Cacau.Accounts.Membership
+    has_one :ownership, Cacau.Accounts.Membership, where: [role: :owner]
+    has_one :owner, through: [:ownership, :user]
+
     timestamps()
   end
 

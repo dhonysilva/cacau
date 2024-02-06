@@ -11,6 +11,7 @@ defmodule Cacau.Accounts.User do
     field :confirmed_at, :naive_datetime
 
     has_many :organization_memberships, Cacau.Accounts.Membership
+    has_many :organizations, through: [:organization_memberships, :organization]
 
     timestamps()
   end

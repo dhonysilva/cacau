@@ -4,10 +4,12 @@ defmodule Cacau.Accounts.Membership do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+
   schema "organization_memberships" do
     field :role, Ecto.Enum, values: [:owner, :admin, :viewer]
-    field :user_id, :binary_id
-    field :organization_id, :binary_id
+
+    belongs_to :user, Cacau.Accounts.User
+    belongs_to :organization, Cacau.Accounts.Organization
 
     timestamps()
   end
