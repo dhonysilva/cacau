@@ -31,6 +31,7 @@ defmodule CacauWeb.UserRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
+        <%!-- <.input field={@form[:organization_name]} type="text" label="Organization name" required /> --%>
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
 
