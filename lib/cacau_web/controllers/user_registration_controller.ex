@@ -19,6 +19,8 @@ defmodule CacauWeb.UserRegistrationController do
             &url(~p"/users/confirm/#{&1}")
           )
 
+        Accounts.create_organization(user, %{"name" => "Personal"})
+
         conn
         |> put_flash(:info, "User created successfully.")
         |> UserAuth.log_in_user(user)

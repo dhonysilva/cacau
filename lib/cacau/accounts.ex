@@ -59,8 +59,6 @@ defmodule Cacau.Accounts do
   # end
 
   def create_organization(user, params) do
-    IO.inspect(user, label: "Passando no create_organization")
-
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:organization, Organization.new(params))
     |> Ecto.Multi.insert(:organization_membership, fn %{organization: organization} ->
