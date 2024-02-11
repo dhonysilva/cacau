@@ -19,8 +19,14 @@ defmodule Cacau.Accounts do
       [%Organization{}, ...]
 
   """
-  def list_organizations do
-    Repo.all(Organization)
+
+  def list_organizations(user) do
+    from(o in Cacau.Accounts.Organization,
+      join: om in Cacau.Accounts.Membership,
+      on: om.organization_id == o.id,
+      where: om.user_id == ^user.id
+    )
+    |> Repo.all()
   end
 
   @doc """

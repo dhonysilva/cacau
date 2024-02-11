@@ -6,7 +6,8 @@ defmodule CacauWeb.OrganizationController do
   alias Cacau.Accounts.Organization
 
   def index(conn, _params) do
-    organizations = Accounts.list_organizations()
+    user = conn.assigns[:current_user]
+    organizations = Accounts.list_organizations(user)
     render(conn, :index, organizations: organizations)
   end
 
