@@ -73,6 +73,14 @@ defmodule Cacau.Catalog do
     |> Repo.update()
   end
 
+  def inc_page_views(%Product{} = product) do
+    {1, [%Product{views: views}]} =
+      from(p in Product, where: p.id == ^product.id, select: [:views])
+      |> Repo.update_all(inc: [views: 1])
+
+    put_in(product.views, views)
+  end
+
   @doc """
   Deletes a product.
 
