@@ -22,8 +22,6 @@ defmodule CacauWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-
-    resources "/organizations", OrganizationController
   end
 
   # Other scopes may use custom stacks.
@@ -69,6 +67,19 @@ defmodule CacauWeb.Router do
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    # Organizations
+    resources "/organizations", OrganizationController
+    resources "/dashboard", OrganizationController
+
+    # Links
+    resources "/links", LinkController
+    get "/organizations/:id/links/new", LinkController, :new
+
+    # Nested resources - more https://hexdocs.pm/phoenix/routing.html#nested-resources
+    resources "/organizations/", OrganizationController do
+      resources "/links", LinkController
+    end
   end
 
   scope "/", CacauWeb do

@@ -5,6 +5,9 @@
     <.link href={~p"/organizations/#{@organization}/edit"}>
       <.button>Edit Organization</.button>
     </.link>
+    <.link href={~p"/organizations/#{@organization.id}/links/new"}>
+      <.button>New Link</.button>
+    </.link>
   </:actions>
 </.header>
 
@@ -13,3 +16,6 @@
 </.list>
 
 <.back navigate={~p"/organizations"}>Back to organizations</.back>
+
+<%!-- Inserir aqui os Links --%>
+<.links assigns />

@@ -35,7 +35,9 @@ defmodule CacauWeb.OrganizationController do
       id
       |> Accounts.get_organization!()
 
-    render(conn, :show, organization: organization)
+    changeset = Cacau.Links.change_link(%Cacau.Links.Link{})
+
+    render(conn, :show, organization: organization, changeset: changeset)
   end
 
   def edit(conn, %{"id" => id}) do
