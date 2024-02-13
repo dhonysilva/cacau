@@ -83,6 +83,9 @@ defmodule CacauWeb.Router do
 
     # Products
     resources "/products", ProductController
+
+    # Category
+    resources "/categories", CategoryController
   end
 
   scope "/", CacauWeb do
