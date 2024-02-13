@@ -80,6 +80,9 @@ defmodule CacauWeb.Router do
     resources "/organizations/", OrganizationController do
       resources "/links", LinkController
     end
+
+    # Products
+    resources "/products", ProductController
   end
 
   scope "/", CacauWeb do
