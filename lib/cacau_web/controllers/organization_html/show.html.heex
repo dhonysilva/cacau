@@ -13,9 +13,15 @@
 
 <.list>
   <:item title="Title"><%= @organization.name %></:item>
+  <:item title="Links">
+    <%= for link <- @organization.links do %>
+      <%= link.url %>
+      <br />
+    <% end %>
+  </:item>
 </.list>
 
 <.back navigate={~p"/organizations"}>Back to organizations</.back>
 
 <%!-- Inserir aqui os Links --%>
-<.links />
+<%!-- <.links /> --%>
