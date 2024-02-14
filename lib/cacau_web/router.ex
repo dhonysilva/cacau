@@ -74,7 +74,8 @@ defmodule CacauWeb.Router do
 
     # Links
     resources "/links", LinkController
-    get "/organizations/:organization_id/links", LinkController, :create
+
+    get "/organizations/:organization_id/links", LinkController, :new
     post "/organizations/:organization_id/links", LinkController, :create
 
     # Nested resources - more https://hexdocs.pm/phoenix/routing.html#nested-resources
