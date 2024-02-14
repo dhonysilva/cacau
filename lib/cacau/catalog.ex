@@ -229,18 +229,6 @@ defmodule Cacau.Catalog do
 
   """
   def change_category(%Category{} = category, attrs \\ %{}) do
-    # Category.changeset(category, attrs)
-    products = list_products_by_id(attrs["product_ids"])
-
-    category
-    |> Repo.preload(:products)
-    |> Category.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:product, products)
-  end
-
-  def list_products_by_id(nil), do: []
-
-  def list_products_by_id(product_ids) do
-    Repo.all(from p in Product, where: p.id in ^product_ids)
+    Category.changeset(category, attrs)
   end
 end
