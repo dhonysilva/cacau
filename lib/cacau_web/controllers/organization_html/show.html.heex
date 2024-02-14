@@ -1,27 +1,32 @@
 <.header>
   Organization: <%= @organization.name %>
-  <:subtitle>This is a organization record from your database.</:subtitle>
+  <.back navigate={~p"/organizations"}>Back to organizations</.back>
+
   <:actions>
     <.link href={~p"/organizations/#{@organization}/edit"}>
       <.button>Edit Organization</.button>
     </.link>
-    <.link href={~p"/organizations/#{@organization.id}/links/new"}>
-      <.button>New Link</.button>
-    </.link>
   </:actions>
 </.header>
 
-<.list>
-  <:item title="Title"><%= @organization.name %></:item>
-  <:item title="Links">
-    <%= for link <- @organization.links do %>
-      <%= link.url %>
-      <br />
-    <% end %>
-  </:item>
-</.list>
+<p>The Links related to this Organization.</p>
 
-<.back navigate={~p"/organizations"}>Back to organizations</.back>
+<.link href={~p"/organizations/#{@organization.id}/links/new"}>
+  <.button>New Link</.button>
+</.link>
 
-<%!-- Inserir aqui os Links --%>
-<%!-- <.links /> --%>
+<.table id="links" rows={@organization.links} row_click={&JS.navigate(~p"/links/#{&1}")}>
+  <:col :let={link} label="Url"><%= link.url %></:col>
+  <:col :let={link} label="Visits"><%= link.visits %></:col>
+  <:action :let={link}>
+    <div class="sr-only">
+      <.link navigate={~p"/links/#{link}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/links/#{link}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={link}>
+    <.link href={~p"/links/#{link}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
