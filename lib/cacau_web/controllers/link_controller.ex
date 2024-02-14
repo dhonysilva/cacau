@@ -11,7 +11,6 @@ defmodule CacauWeb.LinkController do
   end
 
   def new(conn, _params) do
-    # IO.inspect(conn, label: "Passando no new")
     changeset = Links.change_link(%Link{})
     render(conn, :new, changeset: changeset)
   end
@@ -20,7 +19,6 @@ defmodule CacauWeb.LinkController do
   # Inserir o parametro da Organization
 
   def create(conn, %{"link" => link_params, "organization_id" => organization_id}) do
-    IO.inspect(link_params, label: "Passando no create")
     organization = Repo.get(Organization, organization_id)
 
     case Links.create_link(organization, link_params) do

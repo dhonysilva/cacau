@@ -10,6 +10,13 @@
 
 <.list>
   <:item title="Title"><%= @category.title %></:item>
+
+  <:item title="Products">
+    <%= for prod <- @category.products do %>
+      <%= prod.name %>
+      <br />
+    <% end %>
+  </:item>
 </.list>
 
 <.back navigate={~p"/categories"}>Back to categories</.back>

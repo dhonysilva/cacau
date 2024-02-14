@@ -159,7 +159,11 @@ defmodule Cacau.Catalog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_category!(id), do: Repo.get!(Category, id)
+  def get_category!(id) do
+    Category
+    |> Repo.get!(id)
+    |> Repo.preload(:categories)
+  end
 
   @doc """
   Creates a category.
@@ -175,7 +179,8 @@ defmodule Cacau.Catalog do
   """
   def create_category(attrs \\ %{}) do
     %Category{}
-    |> Category.changeset(attrs)
+    # |> Category.changeset(attrs)
+    |> change_category(attrs)
     |> Repo.insert()
   end
 
@@ -193,7 +198,8 @@ defmodule Cacau.Catalog do
   """
   def update_category(%Category{} = category, attrs) do
     category
-    |> Category.changeset(attrs)
+    # |> Category.changeset(attrs)
+    |> change_category(attrs)
     |> Repo.update()
   end
 
@@ -223,6 +229,18 @@ defmodule Cacau.Catalog do
 
   """
   def change_category(%Category{} = category, attrs \\ %{}) do
-    Category.changeset(category, attrs)
+    # Category.changeset(category, attrs)
+    products = list_products_by_id(attrs["product_ids"])
+
+    category
+    |> Repo.preload(:products)
+    |> Category.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:product, products)
+  end
+
+  def list_products_by_id(nil), do: []
+
+  def list_products_by_id(product_ids) do
+    Repo.all(from p in Product, where: p.id in ^product_ids)
   end
 end

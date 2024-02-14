@@ -56,12 +56,9 @@ defmodule Cacau.Links do
   #   |> Repo.insert()
   # end
 
-  def create_link(organization, attrs \\ %{}) do
-    IO.inspect(organization, label: "Passando no create_link")
-
-    organization
-    |> Ecto.build_assoc(:links)
-    |> Link.changeset(attrs)
+  def create_link(organization, link_params) do
+    %Link{}
+    |> Link.changeset(Map.merge(link_params, %{"organization_id" => organization.id}))
     |> Repo.insert()
   end
 
