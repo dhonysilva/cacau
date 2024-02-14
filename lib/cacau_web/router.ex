@@ -14,10 +14,6 @@ defmodule CacauWeb.Router do
     plug :fetch_current_user
   end
 
-  pipeline :organization_context do
-    plug CacauWeb.SetCurrentOrganization
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -66,7 +62,7 @@ defmodule CacauWeb.Router do
   end
 
   scope "/", CacauWeb do
-    pipe_through [:browser, :require_authenticated_user, :organization_context]
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
@@ -79,6 +75,7 @@ defmodule CacauWeb.Router do
     # Links
     resources "/links", LinkController
     get "/organizations/:organization_id/links", LinkController, :create
+    post "/organizations/:organization_id/links", LinkController, :create
 
     # Nested resources - more https://hexdocs.pm/phoenix/routing.html#nested-resources
     resources "/organizations/", OrganizationController do

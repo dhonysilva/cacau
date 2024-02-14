@@ -11,17 +11,38 @@ defmodule CacauWeb.LinkController do
   end
 
   def new(conn, _params) do
+    organization =
+      Repo.get_by(
+        Cacau.Accounts.Organization,
+        id: conn.path_params["organization_id"]
+      )
+
+    IO.inspect(organization,
+      label: "It is possible to see the organization here on Links new function"
+    )
+
     changeset = Links.change_link(%Link{})
     render(conn, :new, changeset: changeset)
   end
 
   # To-do:
-  # Inserir o parametro da Organization
+  # Inserir o parâmetro da Organization
 
-  def create(conn, %{"link" => link_params, "organization_id" => organization_id}) do
-    organization = Repo.get(Organization, organization_id)
+  def create(conn, %{"link" => link_params}) do
+    IO.inspect(conn, label: "passando no Links create")
 
-    case Links.create_link(organization, link_params) do
+    organization =
+      Repo.get_by(
+        Cacau.Accounts.Organization,
+        # <- The path_param is empty
+        id: conn.path_params["organization_id"]
+      )
+
+    IO.inspect(organization,
+      label: "The path_param is not being passed here on Links create function"
+    )
+
+    case Links.create_link(link_params) do
       {:ok, link} ->
         conn
         |> put_flash(:info, "Link created successfully.")

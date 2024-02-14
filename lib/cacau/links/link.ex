@@ -7,7 +7,8 @@ defmodule Cacau.Links.Link do
   schema "links" do
     field :url, :string
     field :visits, :integer
-    field :organization_id, :binary_id
+    # field :organization_id, :binary_id
+    belongs_to :organization, Cacau.Accounts.Organization
 
     timestamps()
   end
@@ -16,6 +17,6 @@ defmodule Cacau.Links.Link do
   def changeset(link, attrs) do
     link
     |> cast(attrs, [:url, :visits, :organization_id])
-    |> validate_required([:url, :visits, :organization_id])
+    |> validate_required([:url, :visits])
   end
 end

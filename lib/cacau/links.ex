@@ -50,17 +50,24 @@ defmodule Cacau.Links do
 
   """
 
-  # def create_link(attrs \\ %{}) do
-  #   %Link{}
+  def create_link(attrs \\ %{}) do
+    %Link{}
+    |> Link.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  # def create_link(organization, attrs \\ %{}) do
+  #   Ecto.build_assoc(organization, :links)
   #   |> Link.changeset(attrs)
   #   |> Repo.insert()
   # end
 
-  def create_link(organization, link_params) do
-    %Link{}
-    |> Link.changeset(Map.merge(link_params, %{"organization_id" => organization.id}))
-    |> Repo.insert()
-  end
+  # def create_link(organization, link_params) do
+  #   organization
+  #   |> Ecto.build_assoc(:links)
+  #   |> Link.changeset(link_params)
+  #   |> Repo.insert()
+  # end
 
   @doc """
   Updates a link.

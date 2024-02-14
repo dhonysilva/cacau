@@ -24,6 +24,7 @@ defmodule Cacau.Accounts.Organization do
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, [:name])
+    |> cast_assoc(:links)
     |> validate_required([:name])
   end
 end

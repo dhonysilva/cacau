@@ -31,6 +31,8 @@ defmodule CacauWeb.OrganizationController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.inspect(conn, label: "passando no organization show")
+
     organization =
       id
       |> Accounts.get_organization!()
