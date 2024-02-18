@@ -4,11 +4,14 @@ defmodule Cacau.Accounts do
   """
 
   import Ecto.Query, warn: false
+  alias Hex.API.Key.Organization
+  alias Hex.API.Key.Organization
   alias Cacau.Repo
 
   alias Cacau.Accounts
 
   alias Cacau.Accounts.Organization
+  alias Cacau.Links.Link
 
   @doc """
   Returns the list of organizations.
@@ -43,7 +46,11 @@ defmodule Cacau.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_organization!(id), do: Repo.get!(Organization, id)
+  def get_organization!(id) do
+    Organization
+    |> Repo.get!(id)
+    |> Repo.preload(:links)
+  end
 
   @doc """
   Creates a organization.
@@ -87,7 +94,8 @@ defmodule Cacau.Accounts do
   """
   def update_organization(%Organization{} = organization, attrs) do
     organization
-    |> Organization.changeset(attrs)
+    # |> Organization.changeset(attrs)
+    |> change_organization(attrs)
     |> Repo.update()
   end
 
@@ -116,8 +124,26 @@ defmodule Cacau.Accounts do
       %Ecto.Changeset{data: %Organization{}}
 
   """
+
+  # def change_organization(%Organization{} = organization, attrs \\ %{}) do
+  #   Organization.changeset(organization, attrs)
+  # end
+
   def change_organization(%Organization{} = organization, attrs \\ %{}) do
-    Organization.changeset(organization, attrs)
+    # Organization.changeset(organization, attrs)
+
+    links = list_links_by_id(attrs["link_ids"])
+
+    organization
+    |> Repo.preload(:links)
+    |> Organization.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:links, links)
+  end
+
+  def list_links_by_id(nil), do: []
+
+  def list_links_by_id(link_ids) do
+    Repo.all(from l in Link, where: l.id in ^link_ids)
   end
 
   alias Cacau.Accounts.{User, UserToken, UserNotifier}

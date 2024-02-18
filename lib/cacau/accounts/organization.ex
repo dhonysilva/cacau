@@ -13,6 +13,8 @@ defmodule Cacau.Accounts.Organization do
     has_one :ownership, Cacau.Accounts.Membership, where: [role: :owner]
     has_one :owner, through: [:ownership, :user]
 
+    has_many :links, Cacau.Links.Link
+
     timestamps()
   end
 
@@ -22,6 +24,7 @@ defmodule Cacau.Accounts.Organization do
   def changeset(organization, attrs) do
     organization
     |> cast(attrs, [:name])
+    |> cast_assoc(:links)
     |> validate_required([:name])
   end
 end

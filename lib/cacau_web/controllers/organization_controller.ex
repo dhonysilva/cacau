@@ -31,11 +31,15 @@ defmodule CacauWeb.OrganizationController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.inspect(conn, label: "passando no organization show")
+
     organization =
       id
       |> Accounts.get_organization!()
 
-    render(conn, :show, organization: organization)
+    changeset = Cacau.Links.change_link(%Cacau.Links.Link{})
+
+    render(conn, :show, organization: organization, changeset: changeset)
   end
 
   def edit(conn, %{"id" => id}) do

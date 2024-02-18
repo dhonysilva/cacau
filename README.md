@@ -16,3 +16,22 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+## Routes structure
+cacau.com
+cacau.com/organizations
+cacau.com/organizations/new
+
+cacau.com/nomedaorganization, Ex:
+cacau.com/personel
+cacau.com/relicario
+
+Implementar o slug
+
+Links
+
+cacau.com/links/link01
+cacau.com/links/link02
+
+
